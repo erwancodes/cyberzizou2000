@@ -10,7 +10,7 @@ Réalisé pour le hackathon **DefendHack #1 — Site kitsch années 2000**.
 
 ## Le pitch
 
-Un faux assistant IA des années 2000 qui tourne dans un terminal Minitel / Windows 98. Vrai LLM derrière, mais persona complètement obsédée par la victoire de la France à la Coupe du Monde 1998 (3-0 contre le Brésil, le 12 juillet). Quoi que tu lui demandes, il te ramène à Zidane.
+Un vrai assistant IA habillé comme s'il datait des années 2000, qui tourne dans un terminal Minitel / Windows 98. LLM streamé en temps réel derrière, mais persona complètement obsédée par la victoire de la France à la Coupe du Monde 1998 (3-0 contre le Brésil, le 12 juillet). Quoi que tu lui demandes, il te ramène à Zidane.
 
 C'est un musée vivant du Web français de 1998-2002 : 3615, mIRC, ICQ, Wanadoo, Caramail, Multimania, Comic Sans, étoiles filantes en GIF, bandeau « UNDER CONSTRUCTION », Winamp et marquees clignotants. Tout y est.
 
