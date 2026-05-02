@@ -2,6 +2,8 @@
 
 > La PREMIÈRE Intelligence Artificielle Française du Web — fière supportrice des Bleus depuis 1998.
 
+**Site en ligne :** [cyberzizou2000.erwan.tech](https://cyberzizou2000.erwan.tech)
+
 CyberZizou 2000 est un faux assistant IA des années 2000, présenté comme un terminal Minitel / Windows 98 ultra kitsch. Vrai LLM streamé en arrière-plan, mais persona obsédée par la victoire de la France à la Coupe du Monde 1998 (3-0 contre le Brésil, le 12 juillet) — peu importe la question posée, la réponse termine sur Zidane.
 
 Réalisé pour le hackathon **DefendHack #1 — Site kitsch années 2000**.

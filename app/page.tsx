@@ -1,15 +1,18 @@
 import { StarBackground } from "@/components/StarBackground";
 import { Marquee } from "@/components/Marquee";
 import { VisitorCounter } from "@/components/VisitorCounter";
+import { ZidanadeCounter } from "@/components/ZidanadeCounter";
 import { ChatWindow } from "@/components/ChatWindow";
 import { PopupManager } from "@/components/Popup";
 import { HeroBanner } from "@/components/widgets/HeroBanner";
 import { WinampPlayer } from "@/components/widgets/WinampPlayer";
+import { NRJTop50 } from "@/components/widgets/NRJTop50";
 import { BuddyList } from "@/components/widgets/BuddyList";
 import { Webring } from "@/components/widgets/Webring";
 import { WeatherWidget } from "@/components/widgets/WeatherWidget";
 import { StatsPanel } from "@/components/widgets/StatsPanel";
 import { GuestbookTeaser } from "@/components/widgets/GuestbookTeaser";
+import { FakeDownload } from "@/components/FakeDownload";
 import { IconFire, IconStar, IconHeart } from "@/components/Icons";
 
 export default function Home() {
@@ -19,18 +22,16 @@ export default function Home() {
 
       <Marquee />
 
-      <div className="under-construction">
-        <span>
-          ◊ SITE EN CONSTRUCTION ◊ MEILLEUR EN 800×600 ◊ INTERNET EXPLORER 5
-          OPTIMIZED ◊ DERNIÈRE MAJ : 14 SEPT. 2000 ◊
-        </span>
-      </div>
-
       <HeroBanner />
 
       <div className="max-w-[1480px] mx-auto px-3 pb-2 flex flex-wrap items-center justify-between gap-3">
-        <div className="win98 px-3 py-1 inline-block">
-          <VisitorCounter />
+        <div className="flex flex-wrap gap-2">
+          <div className="win98 px-3 py-1 inline-block">
+            <VisitorCounter />
+          </div>
+          <div className="win98 px-3 py-1 inline-block">
+            <ZidanadeCounter />
+          </div>
         </div>
         <div className="font-comic text-[12px] text-yellow-300 flex items-center gap-2">
           <IconFire className="text-orange-400" />
@@ -48,6 +49,7 @@ export default function Home() {
         {/* LEFT COLUMN */}
         <aside className="space-y-4 order-2 lg:order-1">
           <WinampPlayer />
+          <NRJTop50 />
           <Webring />
           <GuestbookTeaser />
         </aside>
@@ -74,6 +76,7 @@ export default function Home() {
 
         {/* RIGHT COLUMN */}
         <aside className="space-y-4 order-3">
+          <FakeDownload />
           <BuddyList />
           <WeatherWidget />
           <StatsPanel />

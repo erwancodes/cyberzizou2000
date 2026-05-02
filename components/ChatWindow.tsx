@@ -5,7 +5,9 @@ import { useCyberZizou } from "@/hooks/useCyberZizou";
 import { MessageBubble } from "./MessageBubble";
 import { TypingIndicator } from "./TypingIndicator";
 import { EasterEgg } from "./EasterEgg";
+import { PlayerEasterEgg, PLAYER_KEYS, type PlayerKey } from "./PlayerEasterEgg";
 import { IconBolt, IconChevron } from "./Icons";
+import { countZidanadesIn, setZidanadeCount } from "@/lib/zidanadeStore";
 
 const WELCOME_LINES = [
   "CYBERZIZOU 2000 v1.0.0b — SYSTÈME : MS-DOS 6.22 / WIN98 SE",
@@ -43,6 +45,7 @@ export function ChatWindow() {
   const { messages, sendMessage, status, error, regenerate } = useCyberZizou();
   const [input, setInput] = useState("");
   const [easter, setEaster] = useState(false);
+  const [playerEgg, setPlayerEgg] = useState<PlayerKey | null>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const isLoading = status === "submitted" || status === "streaming";
@@ -52,11 +55,32 @@ export function ChatWindow() {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
   }, [messages, isLoading]);
 
+  useEffect(() => {
+    let total = 0;
+    for (const m of messages) {
+      const anyM = m as unknown as { role: string; content?: string; parts?: unknown };
+      if (anyM.role !== "assistant") continue;
+      const text =
+        typeof anyM.content === "string" && anyM.content.length > 0
+          ? anyM.content
+          : partsToText(anyM.parts);
+      total += countZidanadesIn(text);
+    }
+    setZidanadeCount(total);
+  }, [messages]);
+
   const submit = (text: string) => {
     const v = text.trim();
     if (!v || isLoading) return;
     if (v === "3-0") {
       setEaster(true);
+      setInput("");
+      return;
+    }
+    const lower = v.toLowerCase();
+    const matchedPlayer = PLAYER_KEYS.find((k) => k === lower);
+    if (matchedPlayer) {
+      setPlayerEgg(matchedPlayer);
       setInput("");
       return;
     }
@@ -85,6 +109,9 @@ export function ChatWindow() {
   return (
     <>
       {easter ? <EasterEgg onDone={() => setEaster(false)} /> : null}
+      {playerEgg ? (
+        <PlayerEasterEgg player={playerEgg} onDone={() => setPlayerEgg(null)} />
+      ) : null}
 
       <div className="win98">
         <div className="title-bar">
@@ -222,7 +249,7 @@ export function ChatWindow() {
             <span>|</span>
             <span>Modem : 56 000 bps</span>
             <span>|</span>
-            <span className="text-[#000080] font-bold">Astuce : tape &quot;3-0&quot; pour la surprise</span>
+            <span className="text-[#000080] font-bold">Astuce : tape &quot;3-0&quot;, &quot;henry&quot;, &quot;barthez&quot;, &quot;lizarazu&quot; ou &quot;desailly&quot;</span>
           </div>
         </div>
       </div>
