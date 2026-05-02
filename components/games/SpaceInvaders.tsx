@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { GameShell } from "./GameShell";
 import { useGameTick } from "@/hooks/useGameTick";
+import { useGameScore } from "@/lib/scoreStore";
 
 const W = 22;
 const H = 16;
@@ -59,6 +60,11 @@ export function SpaceInvaders({ onExit }: { onExit: () => void }) {
   const leftRef = useRef(false);
   const rightRef = useRef(false);
   const fireRef = useRef(false);
+  const { high, isNew, submit } = useGameScore("invaders");
+
+  useEffect(() => {
+    if (s.over) submit(s.score);
+  }, [s.over, s.score, submit]);
 
   useEffect(() => {
     const down = (e: KeyboardEvent) => {
@@ -219,6 +225,8 @@ export function SpaceInvaders({ onExit }: { onExit: () => void }) {
       title="SPACE INVADERS"
       subtitle="DESCENDS LE BRESIL"
       score={s.score}
+      record={high}
+      newRecord={Boolean(s.over) && isNew}
       onExit={onExit}
       status={
         s.over

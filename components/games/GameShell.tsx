@@ -6,6 +6,8 @@ export function GameShell({
   title,
   subtitle,
   score,
+  record,
+  newRecord,
   status,
   onExit,
   children,
@@ -13,6 +15,8 @@ export function GameShell({
   title: string;
   subtitle?: string;
   score?: ReactNode;
+  record?: number;
+  newRecord?: boolean;
   status?: ReactNode;
   onExit: () => void;
   children: ReactNode;
@@ -35,9 +39,21 @@ export function GameShell({
           ► {title}
           {subtitle ? <span className="text-cyan-300"> — {subtitle}</span> : null}
         </span>
-        {score !== undefined ? (
-          <span className="text-green-400">SCORE : {score}</span>
-        ) : null}
+        <span className="flex items-center gap-2">
+          {score !== undefined ? (
+            <span className="text-green-400">SCORE : {score}</span>
+          ) : null}
+          {record !== undefined && record > 0 ? (
+            <span
+              className={
+                newRecord ? "text-yellow-300 blink" : "text-fuchsia-300"
+              }
+            >
+              {newRecord ? "★ NEW REC " : "REC : "}
+              {record}
+            </span>
+          ) : null}
+        </span>
         <button
           type="button"
           onClick={onExit}

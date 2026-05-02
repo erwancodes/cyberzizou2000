@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { GameShell } from "./GameShell";
 import { useGameTick } from "@/hooks/useGameTick";
+import { useGameScore } from "@/lib/scoreStore";
 
 const W = 20;
 const H = 14;
@@ -29,6 +30,11 @@ export function Snake({ onExit }: { onExit: () => void }) {
   const [score, setScore] = useState(0);
   const dirRef = useRef<Pt>({ x: 1, y: 0 });
   const queuedDirRef = useRef<Pt>({ x: 1, y: 0 });
+  const { high, isNew, submit } = useGameScore("snake");
+
+  useEffect(() => {
+    if (dead) submit(score);
+  }, [dead, score, submit]);
 
   const restart = () => {
     setSnake(INITIAL_SNAKE);
@@ -107,6 +113,8 @@ export function Snake({ onExit }: { onExit: () => void }) {
       title="SNAKE"
       subtitle="NOKIA 3310"
       score={score}
+      record={high}
+      newRecord={dead && isNew}
       onExit={onExit}
       status={
         dead

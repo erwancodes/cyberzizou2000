@@ -1,8 +1,14 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { GameShell } from "./GameShell";
 import { IconPhone, IconStar, IconHeart } from "../Icons";
+import { useGameScore } from "@/lib/scoreStore";
+
+function prizeToNumber(prize: string): number {
+  const digits = prize.replace(/[^0-9]/g, "");
+  return digits ? parseInt(digits, 10) : 0;
+}
 
 type Question = {
   text: string;
@@ -160,8 +166,15 @@ export function Millionaire({ onExit }: { onExit: () => void }) {
   const [amiHint, setAmiHint] = useState<string | null>(null);
   const [publicVote, setPublicVote] = useState<[number, number, number, number] | null>(null);
   const [finalPrize, setFinalPrize] = useState("0 F");
+  const { high, isNew, submit } = useGameScore("qcm");
 
   const q = QUESTIONS[step];
+
+  const isOver = phase === "won" || phase === "lost" || phase === "quit";
+
+  useEffect(() => {
+    if (isOver) submit(prizeToNumber(finalPrize));
+  }, [isOver, finalPrize, submit]);
 
   const restart = () => {
     setStep(0);
@@ -244,6 +257,8 @@ export function Millionaire({ onExit }: { onExit: () => void }) {
       title="QUI VEUT GAGNER DES MILLIONS"
       subtitle="EDITION FRANCE 98"
       score={`Q ${step + 1}/15`}
+      record={high}
+      newRecord={isOver && isNew}
       onExit={onExit}
       status={
         phase === "answering"

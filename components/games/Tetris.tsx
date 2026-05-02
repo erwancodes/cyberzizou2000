@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { GameShell } from "./GameShell";
 import { useGameTick } from "@/hooks/useGameTick";
+import { useGameScore } from "@/lib/scoreStore";
 
 const W = 10;
 const H = 20;
@@ -138,6 +139,11 @@ export function Tetris({ onExit }: { onExit: () => void }) {
   const [lines, setLines] = useState(0);
   const [over, setOver] = useState(false);
   const tickMsRef = useRef(420);
+  const { high, isNew, submit } = useGameScore("tetris");
+
+  useEffect(() => {
+    if (over) submit(score);
+  }, [over, score, submit]);
 
   const restart = () => {
     setBoard(emptyBoard());
@@ -251,6 +257,8 @@ export function Tetris({ onExit }: { onExit: () => void }) {
       title="TETRIS"
       subtitle="GAME BOY MODE"
       score={`${score} (${lines} lignes)`}
+      record={high}
+      newRecord={over && isNew}
       onExit={onExit}
       status={
         over

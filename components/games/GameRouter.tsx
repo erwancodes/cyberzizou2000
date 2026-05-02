@@ -8,6 +8,7 @@ import { Pacman } from "./Pacman";
 import { SpaceInvaders } from "./SpaceInvaders";
 import { Tetris } from "./Tetris";
 import { Millionaire } from "./Millionaire";
+import { ZidaneQuote } from "./ZidaneQuote";
 
 export function GameRouter({
   game,
@@ -31,5 +32,7 @@ export function GameRouter({
       return <Tetris onExit={onExit} />;
     case "qcm":
       return <Millionaire onExit={onExit} />;
+    case "zidane-quote":
+      return <ZidaneQuote onExit={onExit} />;
   }
 }

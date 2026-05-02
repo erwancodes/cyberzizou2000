@@ -1,16 +1,30 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { useCyberZizou } from "@/hooks/useCyberZizou";
+import {
+  useCyberZizou,
+  setChatMode,
+  getChatMode,
+  subscribeChatMode,
+} from "@/hooks/useCyberZizou";
 import { MessageBubble } from "./MessageBubble";
 import { TypingIndicator } from "./TypingIndicator";
 import { EasterEgg } from "./EasterEgg";
 import { PlayerEasterEgg, PLAYER_KEYS, type PlayerKey } from "./PlayerEasterEgg";
-import { IconBolt, IconChevron } from "./Icons";
+import { IconBolt, IconChevron, IconAnchor } from "./Icons";
 import { countZidanadesIn, setZidanadeCount } from "@/lib/zidanadeStore";
-import { resolveGameCommand, type GameKey } from "@/lib/gameRegistry";
+import {
+  resolveGameCommand,
+  resolveModeCommand,
+  type GameKey,
+} from "@/lib/gameRegistry";
 import { GameRouter } from "./games/GameRouter";
 import { SlashPalette } from "./games/SlashPalette";
+import { ArchivesTab } from "./tabs/ArchivesTab";
+import { AideTab } from "./tabs/AideTab";
+import { AProposTab } from "./tabs/AProposTab";
+
+type TabKey = "conversation" | "archives" | "aide" | "apropos";
 
 const WELCOME_LINES = [
   "CYBERZIZOU 2000 v1.0.0b — SYSTÈME : MS-DOS 6.22 / WIN98 SE",
@@ -45,12 +59,23 @@ function partsToText(parts: unknown): string {
 }
 
 export function ChatWindow() {
-  const { messages, sendMessage, status, error, regenerate } = useCyberZizou();
+  const { messages, setMessages, sendMessage, status, error, regenerate } = useCyberZizou();
   const [input, setInput] = useState("");
   const [easter, setEaster] = useState(false);
   const [playerEgg, setPlayerEgg] = useState<PlayerKey | null>(null);
   const [activeGame, setActiveGame] = useState<GameKey | null>(null);
+  const [tab, setTab] = useState<TabKey>("conversation");
+  const [haddock, setHaddock] = useState<boolean>(() => getChatMode() === "haddock");
+
+  const switchTab = (t: TabKey) => {
+    setTab(t);
+    setActiveGame(null);
+  };
   const scrollRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    return subscribeChatMode((mode) => setHaddock(mode === "haddock"));
+  }, []);
 
   const isLoading = status === "submitted" || status === "streaming";
   const hasError = status === "error" || Boolean(error);
@@ -78,6 +103,13 @@ export function ChatWindow() {
     if (!v || isLoading) return;
     if (v.toLowerCase() === "/quit" || v.toLowerCase() === "/exit") {
       setActiveGame(null);
+      setInput("");
+      return;
+    }
+    const matchedMode = resolveModeCommand(v);
+    if (matchedMode === "haddock") {
+      const next = getChatMode() === "haddock" ? "normal" : "haddock";
+      setChatMode(next);
       setInput("");
       return;
     }
@@ -129,10 +161,16 @@ export function ChatWindow() {
       ) : null}
 
       <div className="win98">
-        <div className="title-bar">
+        <div className={`title-bar ${haddock ? "danger" : ""}`}>
           <span className="flex items-center gap-2">
-            <IconBolt width={14} height={14} className="text-yellow-300" />
-            CYBERZIZOU 2000.EXE — [TERMINAL DIALOGIQUE]
+            {haddock ? (
+              <IconAnchor width={14} height={14} className="text-white" />
+            ) : (
+              <IconBolt width={14} height={14} className="text-yellow-300" />
+            )}
+            {haddock
+              ? "CYBERZIZOU.EXE — [MODE CAPTAIN HADDOCK ACTIVÉ]"
+              : "CYBERZIZOU 2000.EXE — [TERMINAL DIALOGIQUE]"}
           </span>
           <div className="title-bar-controls">
             <button aria-label="minimize">_</button>
@@ -143,10 +181,34 @@ export function ChatWindow() {
 
         {/* tab bar */}
         <div className="bg-[#c0c0c0] px-2 pt-2 flex gap-0">
-          <span className="win98-tab active">Conversation</span>
-          <span className="win98-tab">Archives</span>
-          <span className="win98-tab">Aide</span>
-          <span className="win98-tab">À propos</span>
+          <button
+            type="button"
+            onClick={() => switchTab("conversation")}
+            className={`win98-tab tactile ${tab === "conversation" ? "active" : ""}`}
+          >
+            Conversation
+          </button>
+          <button
+            type="button"
+            onClick={() => switchTab("archives")}
+            className={`win98-tab tactile ${tab === "archives" ? "active" : ""}`}
+          >
+            Archives
+          </button>
+          <button
+            type="button"
+            onClick={() => switchTab("aide")}
+            className={`win98-tab tactile ${tab === "aide" ? "active" : ""}`}
+          >
+            Aide
+          </button>
+          <button
+            type="button"
+            onClick={() => switchTab("apropos")}
+            className={`win98-tab tactile ${tab === "apropos" ? "active" : ""}`}
+          >
+            À propos
+          </button>
         </div>
 
         <div className="p-2 bg-[#c0c0c0]">
@@ -158,6 +220,15 @@ export function ChatWindow() {
             <div ref={scrollRef} className="relative z-[1] h-full overflow-y-auto pr-2">
               {activeGame ? (
                 <GameRouter game={activeGame} onExit={() => setActiveGame(null)} />
+              ) : tab === "archives" ? (
+                <ArchivesTab
+                  messages={uiMessages}
+                  onClear={() => setMessages([])}
+                />
+              ) : tab === "aide" ? (
+                <AideTab />
+              ) : tab === "apropos" ? (
+                <AProposTab />
               ) : (
                 <>
               {WELCOME_LINES.map((line, i) => (
@@ -238,8 +309,13 @@ export function ChatWindow() {
             </div>
           </div>
 
-          <form onSubmit={onSubmit} className="mt-2 flex gap-2 items-center relative">
-            {input.startsWith("/") && !activeGame ? (
+          <form
+            onSubmit={onSubmit}
+            className={`mt-2 flex gap-2 items-center relative ${
+              tab !== "conversation" ? "opacity-50 pointer-events-none" : ""
+            }`}
+          >
+            {input.startsWith("/") && !activeGame && tab === "conversation" ? (
               <SlashPalette
                 query={input}
                 onPick={(cmd) => {
@@ -286,7 +362,15 @@ export function ChatWindow() {
             <span className="text-[#000080] font-bold">
               {activeGame
                 ? `► JEU EN COURS : ${activeGame.toUpperCase()} — /quit ou ESC`
-                : "Astuce : / pour les mini-jeux, ou tape 3-0 / henry / barthez / lizarazu / desailly"}
+                : tab === "archives"
+                  ? "► ARCHIVES — DIR C:\\CYBERZIZOU\\ARCHIVES\\*.LOG"
+                  : tab === "aide"
+                    ? "► AIDE.HLP — appuyez sur F1 (ne fait rien)"
+                    : tab === "apropos"
+                      ? "► À PROPOS — CYBERZIZOU 2000 v1.0.0b"
+                      : haddock
+                        ? "★ MODE HADDOCK ACTIF — /insulte pour désactiver. MILLE SABORDS."
+                        : "Astuce : / pour les mini-jeux, ou tape 3-0 / henry / barthez / lizarazu / desailly"}
             </span>
           </div>
         </div>

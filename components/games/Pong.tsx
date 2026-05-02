@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { GameShell } from "./GameShell";
 import { useGameTick } from "@/hooks/useGameTick";
+import { useGameScore } from "@/lib/scoreStore";
 
 const W = 40;
 const H = 14;
@@ -42,6 +43,11 @@ export function Pong({ onExit }: { onExit: () => void }) {
   const [s, setS] = useState<State>(INITIAL);
   const upRef = useRef(false);
   const downRef = useRef(false);
+  const { high, isNew, submit } = useGameScore("pong");
+
+  useEffect(() => {
+    if (s.over) submit(s.pScore);
+  }, [s.over, s.pScore, submit]);
 
   useEffect(() => {
     const down = (e: KeyboardEvent) => {
@@ -162,6 +168,8 @@ export function Pong({ onExit }: { onExit: () => void }) {
       title="PONG"
       subtitle="VS CYBERZIZOU"
       score={`${s.pScore} : ${s.aScore}`}
+      record={high}
+      newRecord={Boolean(s.over) && isNew}
       onExit={onExit}
       status={
         s.over

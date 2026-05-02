@@ -242,6 +242,10 @@ html, body {
   padding-left: 0;
   padding-right: 100%;
 }
+.marquee:hover .marquee-track,
+.marquee:focus-within .marquee-track {
+  animation-play-state: paused;
+}
 @keyframes marquee-l {
   0% { transform: translateX(0); }
   100% { transform: translateX(-100%); }

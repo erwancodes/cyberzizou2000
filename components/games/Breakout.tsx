@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { GameShell } from "./GameShell";
 import { useGameTick } from "@/hooks/useGameTick";
+import { useGameScore } from "@/lib/scoreStore";
 
 const W = 24;
 const H = 18;
@@ -54,6 +55,11 @@ export function Breakout({ onExit }: { onExit: () => void }) {
   const [s, setS] = useState<State>(initial);
   const leftRef = useRef(false);
   const rightRef = useRef(false);
+  const { high, isNew, submit } = useGameScore("breakout");
+
+  useEffect(() => {
+    if (s.over) submit(s.score);
+  }, [s.over, s.score, submit]);
 
   useEffect(() => {
     const down = (e: KeyboardEvent) => {
@@ -193,6 +199,8 @@ export function Breakout({ onExit }: { onExit: () => void }) {
       title="CASSE-BRIQUE"
       subtitle="ARKANOID FRANCE"
       score={`${s.score} (${s.lives}♥)`}
+      record={high}
+      newRecord={Boolean(s.over) && isNew}
       onExit={onExit}
       status={
         s.over

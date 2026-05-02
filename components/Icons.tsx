@@ -133,6 +133,133 @@ export const IconBolt = (p: SVGProps<SVGSVGElement>) => (
   </svg>
 );
 
+export const IconSnake = (p: SVGProps<SVGSVGElement>) => (
+  <svg {...base(p)}>
+    <path
+      d="M2 4 L7 4 L7 8 L11 8 L11 12 L14 12"
+      fill="none"
+      stroke="#9bca3e"
+      strokeWidth="2.2"
+      strokeLinecap="square"
+    />
+    <rect x="13" y="11" width="2" height="2" fill="#9bca3e" />
+    <rect x="2" y="3" width="2" height="2" fill="#fff" />
+  </svg>
+);
+
+export const IconPong = (p: SVGProps<SVGSVGElement>) => (
+  <svg {...base(p)}>
+    <rect x="2" y="4" width="1.5" height="8" fill="#fff" />
+    <rect x="12.5" y="4" width="1.5" height="8" fill="#fff" />
+    <rect x="7.5" y="7.5" width="1.5" height="1.5" fill="#fff" />
+    <line x1="8" y1="2" x2="8" y2="14" stroke="#fff" strokeWidth="0.5" strokeDasharray="1,1" />
+  </svg>
+);
+
+export const IconBricks = (p: SVGProps<SVGSVGElement>) => (
+  <svg {...base(p)}>
+    <rect x="1" y="2" width="4" height="2" fill="#002395" stroke="#000" strokeWidth="0.4" />
+    <rect x="6" y="2" width="4" height="2" fill="#fff" stroke="#000" strokeWidth="0.4" />
+    <rect x="11" y="2" width="4" height="2" fill="#ed2939" stroke="#000" strokeWidth="0.4" />
+    <rect x="3" y="5" width="4" height="2" fill="#ed2939" stroke="#000" strokeWidth="0.4" />
+    <rect x="8" y="5" width="4" height="2" fill="#002395" stroke="#000" strokeWidth="0.4" />
+    <rect x="4" y="13" width="8" height="1.5" fill="#ffe600" stroke="#000" strokeWidth="0.4" />
+    <circle cx="8" cy="11" r="1" fill="#fff" />
+  </svg>
+);
+
+export const IconPacman = (p: SVGProps<SVGSVGElement>) => (
+  <svg {...base(p)}>
+    <path
+      d="M8 8 L14 4 A7 7 0 1 0 14 12 Z"
+      fill="#ffe600"
+      stroke="#000"
+      strokeWidth="0.6"
+    />
+    <circle cx="8" cy="5" r="0.9" fill="#000" />
+  </svg>
+);
+
+export const IconAlien = (p: SVGProps<SVGSVGElement>) => (
+  <svg {...base(p)}>
+    <rect x="5" y="3" width="6" height="1" fill="#22c55e" />
+    <rect x="3" y="4" width="10" height="1" fill="#22c55e" />
+    <rect x="2" y="5" width="2" height="1" fill="#22c55e" />
+    <rect x="6" y="5" width="1" height="1" fill="#22c55e" />
+    <rect x="9" y="5" width="1" height="1" fill="#22c55e" />
+    <rect x="12" y="5" width="2" height="1" fill="#22c55e" />
+    <rect x="2" y="6" width="12" height="2" fill="#22c55e" />
+    <rect x="5" y="7" width="1" height="1" fill="#000" />
+    <rect x="10" y="7" width="1" height="1" fill="#000" />
+    <rect x="3" y="9" width="2" height="1" fill="#22c55e" />
+    <rect x="11" y="9" width="2" height="1" fill="#22c55e" />
+    <rect x="6" y="10" width="1" height="2" fill="#22c55e" />
+    <rect x="9" y="10" width="1" height="2" fill="#22c55e" />
+  </svg>
+);
+
+export const IconTetris = (p: SVGProps<SVGSVGElement>) => (
+  <svg {...base(p)}>
+    <rect x="6" y="2" width="3" height="3" fill="#a855f7" stroke="#000" strokeWidth="0.4" />
+    <rect x="3" y="5" width="3" height="3" fill="#a855f7" stroke="#000" strokeWidth="0.4" />
+    <rect x="6" y="5" width="3" height="3" fill="#a855f7" stroke="#000" strokeWidth="0.4" />
+    <rect x="9" y="5" width="3" height="3" fill="#a855f7" stroke="#000" strokeWidth="0.4" />
+    <rect x="2" y="9" width="3" height="3" fill="#00d0ff" stroke="#000" strokeWidth="0.4" />
+    <rect x="5" y="9" width="3" height="3" fill="#ffe600" stroke="#000" strokeWidth="0.4" />
+    <rect x="8" y="9" width="3" height="3" fill="#22c55e" stroke="#000" strokeWidth="0.4" />
+    <rect x="11" y="9" width="3" height="3" fill="#ef4444" stroke="#000" strokeWidth="0.4" />
+  </svg>
+);
+
+export const IconAnchor = (p: SVGProps<SVGSVGElement>) => (
+  <svg {...base(p)}>
+    <circle cx="8" cy="3" r="1.5" fill="none" stroke="#000" strokeWidth="1.2" />
+    <line x1="8" y1="4.5" x2="8" y2="13" stroke="#000" strokeWidth="1.4" />
+    <line x1="5.5" y1="6.5" x2="10.5" y2="6.5" stroke="#000" strokeWidth="1.4" />
+    <path
+      d="M3 10 C3 13 5 14 8 14 C11 14 13 13 13 10"
+      fill="none"
+      stroke="#000"
+      strokeWidth="1.4"
+      strokeLinecap="round"
+    />
+    <path d="M2 10 L4 10" stroke="#000" strokeWidth="1.4" />
+    <path d="M12 10 L14 10" stroke="#000" strokeWidth="1.4" />
+  </svg>
+);
+
+export const IconQuote = (p: SVGProps<SVGSVGElement>) => (
+  <svg {...base(p)}>
+    <rect x="1" y="2" width="14" height="10" rx="1" fill="#ffe600" stroke="#000" strokeWidth="1" />
+    <polygon points="4,12 4,15 7,12" fill="#ffe600" stroke="#000" strokeWidth="1" />
+    <text
+      x="8"
+      y="9.5"
+      textAnchor="middle"
+      fontFamily="Comic Sans MS, cursive"
+      fontSize="7"
+      fontWeight="900"
+      fill="#000"
+    >
+      ZZ
+    </text>
+  </svg>
+);
+
+export const IconQuestion = (p: SVGProps<SVGSVGElement>) => (
+  <svg {...base(p)}>
+    <rect x="1" y="1" width="14" height="14" fill="#1e3a8a" stroke="#000" strokeWidth="1" />
+    <path
+      d="M5.5 6 C5.5 4 6.5 3 8 3 C9.5 3 10.5 4 10.5 5.5 C10.5 7 8 7.5 8 9 L8 10"
+      fill="none"
+      stroke="#ffe600"
+      strokeWidth="1.4"
+      strokeLinecap="square"
+    />
+    <rect x="7.3" y="11.4" width="1.4" height="1.4" fill="#ffe600" />
+  </svg>
+);
+
 export const IconFloppy3D = (p: SVGProps<SVGSVGElement>) => (
   <svg {...base({ ...p, width: 24, height: 24, viewBox: "0 0 24 24" })}>
     <rect x="2" y="2" width="20" height="20" fill="#1a1a1a" stroke="#000" />

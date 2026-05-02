@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { GameShell } from "./GameShell";
 import { useGameTick } from "@/hooks/useGameTick";
+import { useGameScore } from "@/lib/scoreStore";
 
 const MAZE = [
   "###################",
@@ -62,6 +63,11 @@ export function Pacman({ onExit }: { onExit: () => void }) {
   const [over, setOver] = useState<string | null>(null);
   const dirRef = useRef<Pt>({ x: 0, y: 0 });
   const queuedRef = useRef<Pt>({ x: 0, y: 0 });
+  const { high, isNew, submit } = useGameScore("pacman");
+
+  useEffect(() => {
+    if (over) submit(score);
+  }, [over, score, submit]);
 
   const restart = () => {
     setPac(INITIAL_PAC);
@@ -182,6 +188,8 @@ export function Pacman({ onExit }: { onExit: () => void }) {
       title="PAC-MAN"
       subtitle="ESQUIVE LE BRESIL"
       score={score}
+      record={high}
+      newRecord={Boolean(over) && isNew}
       onExit={onExit}
       status={
         over ? (
