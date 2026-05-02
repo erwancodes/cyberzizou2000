@@ -3,6 +3,7 @@ import { Marquee } from "@/components/Marquee";
 import { VisitorCounter } from "@/components/VisitorCounter";
 import { ZidanadeCounter } from "@/components/ZidanadeCounter";
 import { SwatchClock } from "@/components/SwatchClock";
+import { SplashMinitel } from "@/components/SplashMinitel";
 import { ChatWindow } from "@/components/ChatWindow";
 import { HeroBanner } from "@/components/widgets/HeroBanner";
 import { WinampPlayer } from "@/components/widgets/WinampPlayer";
@@ -19,6 +20,7 @@ import { IconFire, IconStar, IconHeart } from "@/components/Icons";
 export default function Home() {
   return (
     <main className="min-h-[100dvh] w-full">
+      <SplashMinitel />
       <StarBackground />
 
       <Marquee />
