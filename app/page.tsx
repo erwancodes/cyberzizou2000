@@ -2,12 +2,14 @@ import { StarBackground } from "@/components/StarBackground";
 import { Marquee } from "@/components/Marquee";
 import { VisitorCounter } from "@/components/VisitorCounter";
 import { ZidanadeCounter } from "@/components/ZidanadeCounter";
+import { SwatchClock } from "@/components/SwatchClock";
 import { ChatWindow } from "@/components/ChatWindow";
 import { HeroBanner } from "@/components/widgets/HeroBanner";
 import { WinampPlayer } from "@/components/widgets/WinampPlayer";
 import { NRJTop50 } from "@/components/widgets/NRJTop50";
 import { BuddyList } from "@/components/widgets/BuddyList";
 import { Webring } from "@/components/widgets/Webring";
+import { IRCChat } from "@/components/widgets/IRCChat";
 import { WeatherWidget } from "@/components/widgets/WeatherWidget";
 import { StatsPanel } from "@/components/widgets/StatsPanel";
 import { GuestbookTeaser } from "@/components/widgets/GuestbookTeaser";
@@ -31,6 +33,9 @@ export default function Home() {
           <div className="win98 px-3 py-1 inline-block">
             <ZidanadeCounter />
           </div>
+          <div className="win98 px-3 py-1 inline-block">
+            <SwatchClock />
+          </div>
         </div>
         <div className="font-comic text-[12px] text-yellow-300 flex items-center gap-2">
           <IconFire className="text-orange-400" />
@@ -49,6 +54,7 @@ export default function Home() {
         <aside className="space-y-4 order-2 lg:order-1">
           <WinampPlayer />
           <NRJTop50 />
+          <IRCChat />
           <Webring />
           <GuestbookTeaser />
         </aside>
