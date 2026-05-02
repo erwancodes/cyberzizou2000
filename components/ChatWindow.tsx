@@ -8,6 +8,9 @@ import { EasterEgg } from "./EasterEgg";
 import { PlayerEasterEgg, PLAYER_KEYS, type PlayerKey } from "./PlayerEasterEgg";
 import { IconBolt, IconChevron } from "./Icons";
 import { countZidanadesIn, setZidanadeCount } from "@/lib/zidanadeStore";
+import { resolveGameCommand, type GameKey } from "@/lib/gameRegistry";
+import { GameRouter } from "./games/GameRouter";
+import { SlashPalette } from "./games/SlashPalette";
 
 const WELCOME_LINES = [
   "CYBERZIZOU 2000 v1.0.0b — SYSTÈME : MS-DOS 6.22 / WIN98 SE",
@@ -46,6 +49,7 @@ export function ChatWindow() {
   const [input, setInput] = useState("");
   const [easter, setEaster] = useState(false);
   const [playerEgg, setPlayerEgg] = useState<PlayerKey | null>(null);
+  const [activeGame, setActiveGame] = useState<GameKey | null>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const isLoading = status === "submitted" || status === "streaming";
@@ -72,6 +76,17 @@ export function ChatWindow() {
   const submit = (text: string) => {
     const v = text.trim();
     if (!v || isLoading) return;
+    if (v.toLowerCase() === "/quit" || v.toLowerCase() === "/exit") {
+      setActiveGame(null);
+      setInput("");
+      return;
+    }
+    const matchedGame = resolveGameCommand(v);
+    if (matchedGame) {
+      setActiveGame(matchedGame);
+      setInput("");
+      return;
+    }
     if (v === "3-0") {
       setEaster(true);
       setInput("");
@@ -141,6 +156,10 @@ export function ChatWindow() {
           >
             <span className="scan-line" />
             <div ref={scrollRef} className="relative z-[1] h-full overflow-y-auto pr-2">
+              {activeGame ? (
+                <GameRouter game={activeGame} onExit={() => setActiveGame(null)} />
+              ) : (
+                <>
               {WELCOME_LINES.map((line, i) => (
                 <div
                   key={i}
@@ -189,7 +208,7 @@ export function ChatWindow() {
 
               {status === "submitted" ? <TypingIndicator /> : null}
 
-              {hasError ? (
+              {hasError && !activeGame ? (
                 <div className="mt-3 border-2 border-red-500 bg-red-950/40 p-2 font-vt323">
                   <div className="text-red-400 text-lg flex items-center gap-2">
                     <span className="led red" />
@@ -214,10 +233,21 @@ export function ChatWindow() {
                   </button>
                 </div>
               ) : null}
+                </>
+              )}
             </div>
           </div>
 
-          <form onSubmit={onSubmit} className="mt-2 flex gap-2 items-center">
+          <form onSubmit={onSubmit} className="mt-2 flex gap-2 items-center relative">
+            {input.startsWith("/") && !activeGame ? (
+              <SlashPalette
+                query={input}
+                onPick={(cmd) => {
+                  setInput("");
+                  submit(cmd);
+                }}
+              />
+            ) : null}
             <span className="font-vt323 text-lg" style={{ color: "#000" }}>
               C:\&gt;
             </span>
@@ -226,7 +256,11 @@ export function ChatWindow() {
               value={input}
               onChange={(e) => setInput(e.target.value)}
               disabled={isLoading}
-              placeholder="TAPEZ VOTRE REQUÊTE ICI..."
+              placeholder={
+                activeGame
+                  ? "TAPEZ /quit OU [ESC] POUR SORTIR DU JEU..."
+                  : "TAPEZ VOTRE REQUÊTE ICI... (TAPEZ / POUR LES MINI-JEUX)"
+              }
               className="win98-inset flex-1 px-2 py-1 font-vt323 text-lg outline-none text-black"
               style={{ background: "#fff" }}
               autoFocus
@@ -249,7 +283,11 @@ export function ChatWindow() {
             <span>|</span>
             <span>Modem : 56 000 bps</span>
             <span>|</span>
-            <span className="text-[#000080] font-bold">Astuce : tape &quot;3-0&quot;, &quot;henry&quot;, &quot;barthez&quot;, &quot;lizarazu&quot; ou &quot;desailly&quot;</span>
+            <span className="text-[#000080] font-bold">
+              {activeGame
+                ? `► JEU EN COURS : ${activeGame.toUpperCase()} — /quit ou ESC`
+                : "Astuce : / pour les mini-jeux, ou tape 3-0 / henry / barthez / lizarazu / desailly"}
+            </span>
           </div>
         </div>
       </div>

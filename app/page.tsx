@@ -3,7 +3,6 @@ import { Marquee } from "@/components/Marquee";
 import { VisitorCounter } from "@/components/VisitorCounter";
 import { ZidanadeCounter } from "@/components/ZidanadeCounter";
 import { ChatWindow } from "@/components/ChatWindow";
-import { PopupManager } from "@/components/Popup";
 import { HeroBanner } from "@/components/widgets/HeroBanner";
 import { WinampPlayer } from "@/components/widgets/WinampPlayer";
 import { NRJTop50 } from "@/components/widgets/NRJTop50";
@@ -116,8 +115,6 @@ export default function Home() {
           </div>
         </div>
       </footer>
-
-      <PopupManager />
     </main>
   );
 }
