@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { IconChevron, IconBolt } from "../Icons";
 
-type Line =
+type LineBody =
   | { kind: "msg"; nick: string; color: string; text: string }
   | { kind: "join"; nick: string }
   | { kind: "part"; nick: string; reason: string }
@@ -12,6 +12,8 @@ type Line =
   | { kind: "action"; nick: string; color: string; text: string }
   | { kind: "topic"; setter: string; text: string }
   | { kind: "system"; text: string };
+
+type Line = LineBody & { ts: string };
 
 const NICKS = [
   "ZizouFan_31",
@@ -124,7 +126,7 @@ function pickNick(seed?: number): { nick: string; color: string } {
   return { nick, color };
 }
 
-function generateLine(): Line {
+function generateBody(): LineBody {
   const r = Math.random();
   if (r < 0.62) {
     const { nick, color } = pickNick();
@@ -143,7 +145,7 @@ function generateLine(): Line {
   return { kind: "nick", from: pickNick().nick, to: pickNick().nick };
 }
 
-const INITIAL_LINES: Line[] = [
+const INITIAL_BODIES: LineBody[] = [
   {
     kind: "topic",
     setter: "AiméJacquet_OFFICIEL",
@@ -166,16 +168,21 @@ function formatTime() {
 }
 
 export function IRCChat() {
-  const [lines, setLines] = useState<Line[]>(INITIAL_LINES);
+  const [lines, setLines] = useState<Line[]>([]);
   const [paused, setPaused] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const ts = formatTime();
+    setLines(INITIAL_BODIES.map((b) => ({ ...b, ts })));
+  }, []);
 
   useEffect(() => {
     if (paused) return;
     const id = window.setInterval(
       () => {
         setLines((prev) => {
-          const next = [...prev, generateLine()];
+          const next = [...prev, { ...generateBody(), ts: formatTime() }];
           return next.length > 60 ? next.slice(next.length - 60) : next;
         });
       },
@@ -237,7 +244,7 @@ export function IRCChat() {
 }
 
 function LineRow({ line }: { line: Line }) {
-  const ts = formatTime();
+  const ts = line.ts;
   switch (line.kind) {
     case "topic":
       return (
