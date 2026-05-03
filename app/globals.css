@@ -736,3 +736,95 @@ html, body {
   20%  { opacity: 1; }
   100% { transform: translateY(-130px) scale(1.2); opacity: 0; }
 }
+
+/* === tamazizou === */
+.tama-screen {
+  background: linear-gradient(to bottom, #9bb84a 0%, #7a9b3a 100%);
+  border-color: #404040 #fff #fff #404040 !important;
+}
+.tama-pixel-bg {
+  background-image:
+    radial-gradient(circle at 1px 1px, rgba(0,0,0,0.18) 1px, transparent 0);
+  background-size: 4px 4px;
+  opacity: 0.6;
+}
+.tama-antenna {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  background: #ef4135;
+  border-radius: 50%;
+  box-shadow: 0 -3px 0 -1px #fff, 0 -6px 0 -1px #0055a4;
+  margin-right: 2px;
+}
+.tama-idle    { animation: tama-idle 2.4s ease-in-out infinite; }
+.tama-jongle  { animation: tama-jongle 0.6s ease-in-out infinite; }
+.tama-bounce  { animation: tama-bounce 0.4s ease-in-out infinite; }
+@keyframes tama-idle {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-2px); }
+}
+@keyframes tama-jongle {
+  0%, 100% { transform: translateY(0) rotate(-2deg); }
+  50%      { transform: translateY(-3px) rotate(3deg); }
+}
+@keyframes tama-bounce {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50%      { transform: translateY(-6px) scale(1.04); }
+}
+.tama-ball-jongle {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #fff;
+  border: 2px solid #000;
+  left: 50%;
+  bottom: -4px;
+  margin-left: -5px;
+  animation: tama-ball-jongle 0.6s ease-in-out infinite;
+}
+@keyframes tama-ball-jongle {
+  0%, 100% { transform: translate(-12px, -12px); }
+  50%      { transform: translate(12px, -38px); }
+}
+.tama-ball-head {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #fff;
+  border: 2px solid #000;
+  left: 50%;
+  top: -4px;
+  margin-left: -6px;
+  animation: tama-ball-head 1.4s ease-out forwards;
+  box-shadow: inset -2px -2px 0 #888;
+}
+@keyframes tama-ball-head {
+  0%   { transform: translate(0, 0) scale(0.6); opacity: 0; }
+  20%  { transform: translate(0, 6px) scale(1); opacity: 1; }
+  100% { transform: translate(60px, -40px) scale(1); opacity: 0; }
+}
+.tama-z {
+  animation: tama-z 1.4s ease-out infinite;
+}
+@keyframes tama-z {
+  0%   { transform: translateY(0) scale(0.6); opacity: 0; }
+  30%  { opacity: 1; }
+  100% { transform: translateY(-18px) scale(1.2); opacity: 0; }
+}
+.tama-confetti {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.tama-confetti span {
+  position: absolute;
+  top: -4px;
+  width: 4px;
+  height: 6px;
+  animation: tama-confetti-fall 1.6s linear infinite;
+}
+@keyframes tama-confetti-fall {
+  0%   { transform: translateY(0) rotate(0); opacity: 1; }
+  100% { transform: translateY(110px) rotate(360deg); opacity: 0; }
+}

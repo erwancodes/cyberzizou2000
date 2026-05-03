@@ -4,6 +4,7 @@ import { VisitorCounter } from "@/components/VisitorCounter";
 import { ZidanadeCounter } from "@/components/ZidanadeCounter";
 import { SwatchClock } from "@/components/SwatchClock";
 import { SplashMinitel } from "@/components/SplashMinitel";
+import { TamaZizou } from "@/components/TamaZizou";
 import { ChatWindow } from "@/components/ChatWindow";
 import { HeroBanner } from "@/components/widgets/HeroBanner";
 import { WinampPlayer } from "@/components/widgets/WinampPlayer";
@@ -22,6 +23,7 @@ export default function Home() {
   return (
     <main className="min-h-[100dvh] w-full">
       <SplashMinitel />
+      <TamaZizou />
       <StarBackground />
 
       <Marquee />
