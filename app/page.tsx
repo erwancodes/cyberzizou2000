@@ -11,6 +11,7 @@ import { NRJTop50 } from "@/components/widgets/NRJTop50";
 import { BuddyList } from "@/components/widgets/BuddyList";
 import { Webring } from "@/components/widgets/Webring";
 import { IRCChat } from "@/components/widgets/IRCChat";
+import { MatchReplay } from "@/components/widgets/MatchReplay";
 import { WeatherWidget } from "@/components/widgets/WeatherWidget";
 import { StatsPanel } from "@/components/widgets/StatsPanel";
 import { GuestbookTeaser } from "@/components/widgets/GuestbookTeaser";
@@ -83,6 +84,7 @@ export default function Home() {
 
         {/* RIGHT COLUMN */}
         <aside className="space-y-4 order-3">
+          <MatchReplay />
           <FakeDownload />
           <BuddyList />
           <WeatherWidget />
